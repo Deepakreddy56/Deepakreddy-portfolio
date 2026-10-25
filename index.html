@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepak Reddy | AI & Data Science Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f7ff',
+                            100: '#e0effe',
+                            500: '#2563eb',
+                            600: '#1d4ed8',
+                            700: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #1d4ed8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .gradient-text {
+            background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body x-data="{ 
+    darkMode: true, 
+    activeTab: 'all',
+    selectedCert: null,
+    mobileMenuOpen: false
+}" :class="{ 'dark': darkMode, 'bg-slate-900 text-slate-100': darkMode, 'bg-slate-50 text-slate-800': !darkMode }" class="transition-colors duration-300 min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-40 w-full backdrop-blur-md border-b transition-colors duration-300"
+         :class="darkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white/80 border-slate-200'">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center space-x-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/30 group-hover:scale-105 transition-transform">
+                        DR
+                    </div>
+                    <span class="font-bold text-lg tracking-tight">DEEPAK<span class="text-blue-500">.REDDY</span></span>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="hover:text-blue-500 transition-colors">About</a>
+                    <a href="#skills" class="hover:text-blue-500 transition-colors">Skills</a>
+                    <a href="#certificates" class="hover:text-blue-500 transition-colors">Certificates</a>
+                    <a href="#education" class="hover:text-blue-500 transition-colors">Education</a>
+                    <a href="#projects" class="hover:text-blue-500 transition-colors">Projects</a>
+                    <a href="#contact" class="hover:text-blue-500 transition-colors">Contact</a>
+                </div>
+
+                <!-- Right Action / Dark Mode Toggle -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button @click="darkMode = !darkMode" class="p-2.5 rounded-xl border transition-all"
+                            :class="darkMode ? 'border-slate-700 bg-slate-800 text-amber-400 hover:bg-slate-700' : 'border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'"
+                            aria-label="Toggle Theme">
+                        <i x-show="darkMode" data-lucide="sun" class="w-5 h-5"></i>
+                        <i x-show="!darkMode" data-lucide="moon" class="w-5 h-5"></i>
+                    </button>
+                    <a href="#contact" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm shadow-md shadow-blue-500/20 transition-all hover:scale-[1.02]">
+                        Hire Me
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center space-x-3 md:hidden">
+                    <button @click="darkMode = !darkMode" class="p-2 rounded-lg border"
+                            :class="darkMode ? 'border-slate-700 bg-slate-800 text-amber-400' : 'border-slate-200 bg-slate-100 text-slate-700'">
+                        <i x-show="darkMode" data-lucide="sun" class="w-5 h-5"></i>
+                        <i x-show="!darkMode" data-lucide="moon" class="w-5 h-5"></i>
+                    </button>
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="p-2 rounded-lg border"
+                            :class="darkMode ? 'border-slate-700 text-slate-200' : 'border-slate-200 text-slate-700'">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div x-show="mobileMenuOpen" x-transition class="md:hidden border-b px-4 pt-2 pb-4 space-y-3"
+             :class="darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'">
+            <a href="#about" @click="mobileMenuOpen = false" class="block py-2 text-base font-medium">About</a>
+            <a href="#skills" @click="mobileMenuOpen = false" class="block py-2 text-base font-medium">Skills</a>
+            <a href="#certificates" @click="mobileMenuOpen = false" class="block py-2 text-base font-medium">Certificates</a>
+            <a href="#education" @click="mobileMenuOpen = false" class="block py-2 text-base font-medium">Education</a>
+            <a href="#projects" @click="mobileMenuOpen = false" class="block py-2 text-base font-medium">Projects</a>
+            <a href="#contact" @click="mobileMenuOpen = false" class="block py-2 text-base font-medium">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION WITH YOUR EMBEDDED PROFILE PHOTO -->
+    <section class="relative pt-12 pb-20 lg:pt-20 lg:pb-28 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Hero Text -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase border"
+                         :class="darkMode ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 'bg-blue-50 text-blue-700 border-blue-200'">
+                        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+                        <span>AI & Data Science Undergraduate</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+                        Hello, I'm <br class="hidden sm:inline"/>
+                        <span class="gradient-text">DEEPAK REDDY</span>
+                    </h1>
+
+                    <p class="text-lg sm:text-xl max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed"
+                       :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Data Analytics & AI Undergraduate with strong foundations in <strong>SQL, MySQL, Power BI, Python</strong>, and <strong>Machine Learning</strong>[cite: 1]. Experienced in designing end-to-end data pipelines and decision dashboards[cite: 1].
+                    </p>
+
+                    <!-- Quick Links & Contact CTAs -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="#contact" class="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base shadow-lg shadow-blue-500/25 flex items-center space-x-2 transition-all hover:scale-105">
+                            <span>Contact Me</span>
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#projects" class="px-6 py-3.5 rounded-xl border font-semibold text-base flex items-center space-x-2 transition-all hover:scale-105"
+                           :class="darkMode ? 'border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200' : 'border-slate-300 bg-white hover:bg-slate-50 text-slate-800'">
+                            <span>View My Work</span>
+                            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+
+                    <!-- Social Chips -->
+                    <div class="pt-6 flex flex-wrap items-center justify-center lg:justify-start gap-3">
+                        <a href="mailto:deepakreddyshivannor@gmail.com" class="p-3 rounded-xl border transition-all hover:scale-110 flex items-center space-x-2 text-xs font-medium"
+                           :class="darkMode ? 'border-slate-800 bg-slate-800/80 text-slate-300 hover:text-white' : 'border-slate-200 bg-white text-slate-600 hover:text-black'">
+                            <i data-lucide="mail" class="w-4 h-4 text-blue-500"></i>
+                            <span class="hidden sm:inline">deepakreddyshivannor@gmail.com</span>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="p-3 rounded-xl border transition-all hover:scale-110 flex items-center space-x-2 text-xs font-medium"
+                           :class="darkMode ? 'border-slate-800 bg-slate-800/80 text-slate-300 hover:text-white' : 'border-slate-200 bg-white text-slate-600 hover:text-black'">
+                            <i data-lucide="linkedin" class="w-4 h-4 text-blue-500"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="p-3 rounded-xl border transition-all hover:scale-110 flex items-center space-x-2 text-xs font-medium"
+                           :class="darkMode ? 'border-slate-800 bg-slate-800/80 text-slate-300 hover:text-white' : 'border-slate-200 bg-white text-slate-600 hover:text-black'">
+                            <i data-lucide="github" class="w-4 h-4 text-blue-500"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://leetcode.com" target="_blank" class="p-3 rounded-xl border transition-all hover:scale-110 flex items-center space-x-2 text-xs font-medium"
+                           :class="darkMode ? 'border-slate-800 bg-slate-800/80 text-slate-300 hover:text-white' : 'border-slate-200 bg-white text-slate-600 hover:text-black'">
+                            <i data-lucide="code" class="w-4 h-4 text-amber-500"></i>
+                            <span>LeetCode</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hero Round Profile Picture Showcase -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative w-full max-w-sm flex flex-col items-center">
+                        <div class="absolute -top-6 w-72 h-72 bg-blue-500/20 rounded-full filter blur-3xl"></div>
+                        
+                        <!-- ROUND IMAGE FRAME -->
+                        <div class="relative w-64 h-64 sm:w-72 sm:h-72 rounded-full overflow-hidden p-2 border-4 shadow-2xl glass-card transition-transform duration-500 hover:scale-105"
+                             :class="darkMode ? 'border-blue-500/40' : 'border-blue-500/30'">
+                            <img src="./images/deepak.png" 
+                                 alt="Deepak Reddy" 
+                                 class="w-full h-full object-cover rounded-full shadow-inner">
+                        </div>
+
+                        <!-- Floating Badge -->
+                        <div class="mt-6 w-full p-4 rounded-2xl glass-card border backdrop-blur-md shadow-xl flex items-center justify-between"
+                             :class="darkMode ? 'bg-slate-900/90 border-slate-700/80' : 'bg-white/90 border-slate-200'">
+                            <div>
+                                <p class="text-xs font-semibold text-blue-500 uppercase tracking-wider">Institution</p>
+                                <p class="font-bold text-sm tracking-tight">NMIT, Bengaluru[cite: 1]</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-xs font-semibold text-emerald-500 uppercase tracking-wider">CGPA</p>
+                                <p class="font-bold text-sm tracking-tight">8.25 / 10[cite: 1]</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT ME SECTION -->
+    <section id="about" class="py-16 border-t" :class="darkMode ? 'border-slate-800/80 bg-slate-900/50' : 'border-slate-200 bg-slate-50'">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold tracking-tight">About Me</h2>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <!-- Round Image Container -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="w-56 h-56 rounded-full overflow-hidden border-4 shadow-xl"
+                         :class="darkMode ? 'border-blue-500/40 bg-slate-800' : 'border-blue-500/30 bg-white'">
+                        <img src="./images/deepak.png" 
+                             alt="Deepak Reddy" 
+                             class="w-full h-full object-cover rounded-full">
+                    </div>
+                </div>
+
+                <!-- Text Container -->
+                <div class="lg:col-span-7 space-y-4 text-base leading-relaxed" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                    <p>
+                        I am an <strong>Artificial Intelligence & Data Science</strong> undergraduate at <strong>Nitte Meenakshi Institute of Technology (NMIT), Bengaluru</strong>[cite: 1, 2]. My primary interest lies in turning unstructured data into clear, actionable business intelligence[cite: 1, 4].
+                    </p>
+                    <p>
+                        I possess expertise in designing relational database schemas, engineering optimized SQL queries with joins and aggregations[cite: 1], and crafting interactive Power BI dashboards[cite: 1, 4]. Additionally, I have hands-on experience building machine learning pipelines using Python (Pandas, Scikit-learn, XGBoost)[cite: 1].
+                    </p>
+                    <p>
+                        With a strong background in problem-solving and computer science core subjects (DBMS, Statistics, DSA)[cite: 1], I strive to build high-impact analytical tools that help business stakeholders make data-backed decisions[cite: 1, 4].
+                    </p>
+
+                    <!-- Quick Metrics Grid -->
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4">
+                        <div class="p-4 rounded-xl border text-center" :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white'">
+                            <p class="text-2xl font-bold text-blue-500">8.25</p>
+                            <p class="text-xs font-medium text-slate-400 mt-1">B.E. CGPA (NMIT)[cite: 1]</p>
+                        </div>
+                        <div class="p-4 rounded-xl border text-center" :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white'">
+                            <p class="text-2xl font-bold text-emerald-500">4+</p>
+                            <p class="text-xs font-medium text-slate-400 mt-1">End-to-End Projects[cite: 1]</p>
+                        </div>
+                        <div class="p-4 rounded-xl border text-center col-span-2 sm:col-span-1" :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white'">
+                            <p class="text-2xl font-bold text-amber-500">7+</p>
+                            <p class="text-xs font-medium text-slate-400 mt-1">Certifications[cite: 1, 2, 4, 6]</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNICAL PROFICIENCY / SKILLS SECTION -->
+    <section id="skills" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold tracking-tight">Technical Proficiency</h2>
+                <p class="text-sm mt-2" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">A structured breakdown of my technical capabilities[cite: 1].</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Skill Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Data Analysis & Viz -->
+                <div class="p-6 rounded-2xl border transition-all hover:border-blue-500/50"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center mb-4">
+                        <i data-lucide="bar-chart-3" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Data Analytics & Viz[cite: 1]</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Power BI[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Microsoft Excel[cite: 1, 7]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Pandas[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">NumPy[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">Matplotlib[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-blue-500/10 text-blue-400 border border-blue-500/20">DAX Measures[cite: 1]</span>
+                    </div>
+                </div>
+
+                <!-- Databases & SQL -->
+                <div class="p-6 rounded-2xl border transition-all hover:border-emerald-500/50"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-4">
+                        <i data-lucide="database" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Databases & SQL[cite: 1]</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">SQL[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">MySQL[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">PostgreSQL[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">DBMS Fundamentals[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Query Optimization[cite: 1]</span>
+                    </div>
+                </div>
+
+                <!-- Data Warehousing & ETL -->
+                <div class="p-6 rounded-2xl border transition-all hover:border-purple-500/50"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center mb-4">
+                        <i data-lucide="git-merge" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">ETL & Warehousing[cite: 1]</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">ETL Pipelines[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Data Modeling[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Normalization[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Denormalization[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-purple-500/10 text-purple-400 border border-purple-500/20">Data Ingestion[cite: 1]</span>
+                    </div>
+                </div>
+
+                <!-- Programming Languages -->
+                <div class="p-6 rounded-2xl border transition-all hover:border-amber-500/50"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center mb-4">
+                        <i data-lucide="code-2" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Languages & DSA[cite: 1]</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">Python[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">SQL[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">C++[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">Data Structures[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-amber-500/10 text-amber-400 border border-amber-500/20">LeetCode Problem Solving[cite: 1]</span>
+                    </div>
+                </div>
+
+                <!-- Machine Learning -->
+                <div class="p-6 rounded-2xl border transition-all hover:border-rose-500/50"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-500 flex items-center justify-center mb-4">
+                        <i data-lucide="cpu" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Machine Learning & AI[cite: 1]</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">Scikit-Learn[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">XGBoost[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">CNN & Deep Learning[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">Feature Engineering[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-rose-500/10 text-rose-400 border border-rose-500/20">Generative AI / LLMs[cite: 2]</span>
+                    </div>
+                </div>
+
+                <!-- Tools & Frameworks -->
+                <div class="p-6 rounded-2xl border transition-all hover:border-sky-500/50"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-500 flex items-center justify-center mb-4">
+                        <i data-lucide="wrench" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-lg font-bold mb-3">Tools & Environment[cite: 1]</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">VS Code[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">Google Colab[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">Git & GitHub[cite: 1]</span>
+                        <span class="px-3 py-1 rounded-lg text-xs font-medium bg-sky-500/10 text-sky-400 border border-sky-500/20">Jupyter[cite: 1]</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATES SECTION WITH PDF MODAL VIEWER -->
+    <section id="certificates" class="py-16 border-t" :class="darkMode ? 'border-slate-800/80 bg-slate-900/40' : 'border-slate-200 bg-slate-50'">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold tracking-tight">Certifications & Achievements</h2>
+                <p class="text-sm mt-2" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">Click any certificate card to view and open your PDF certificate[cite: 1, 2, 4, 6].</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Certificates Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. Generative AI Masterclass -->
+                <div @click="selectedCert = {
+                        title: 'Generative AI Masterclass: From LLMs to Agents',
+                        issuer: 'IBM India Research Lab Scientists / PALS 2025-26',
+                        date: 'September 2025',
+                        code: 'PALS JAU IRM MERIT 267',
+                        desc: 'Meritorious performance in an industry-assisted lecture series covering LLMs, Autonomous Agents, and Knowledge-Grounded RAG Systems.',
+                        pdf: './images/Generative AI Certification.pdf'
+                     }"
+                     class="group p-5 rounded-2xl border cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50 hover:border-blue-500/60' : 'border-slate-200 bg-white hover:border-blue-500 shadow-sm'">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-blue-500/10 text-blue-400">IBM / PALS</span>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-50 group-hover:opacity-100 text-blue-500"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1 group-hover:text-blue-500 transition-colors">Generative AI Masterclass</h3>
+                    <p class="text-xs text-slate-400 mb-3">IBM Research Scientists & PALS • Sept 2025</p>
+                    <p class="text-xs line-clamp-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Covered Large Language Models, AI Agents, and Knowledge-Grounded Systems.
+                    </p>
+                </div>
+
+                <!-- 2. Simplilearn Data Scientist Masters Program -->
+                <div @click="selectedCert = {
+                        title: 'Data Scientist Masters Program',
+                        issuer: 'Simplilearn (Krishna Kumar, CEO)',
+                        date: 'May 8, 2026',
+                        code: '181859206',
+                        desc: 'Graduated from the Data Scientist Masters program after completing all course requirements and industry projects with distinction.',
+                        pdf: './images/Data Scientist Certification.pdf'
+                     }"
+                     class="group p-5 rounded-2xl border cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50 hover:border-blue-500/60' : 'border-slate-200 bg-white hover:border-blue-500 shadow-sm'">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400">Simplilearn</span>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-50 group-hover:opacity-100 text-emerald-500"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1 group-hover:text-blue-500 transition-colors">Data Scientist Masters Program</h3>
+                    <p class="text-xs text-slate-400 mb-3">Simplilearn • May 8, 2026</p>
+                    <p class="text-xs line-clamp-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Mastered Machine Learning, Data Pipeline design, and Predictive Modeling with Distinction.
+                    </p>
+                </div>
+
+                <!-- 3. TATA Data Visualization -->
+                <div @click="selectedCert = {
+                        title: 'Data Visualisation: Empowering Business with Insights',
+                        issuer: 'TATA / Forage',
+                        date: 'September 2025',
+                        code: '9rcHgrw6jyWRBMtbS',
+                        desc: 'Completed practical tasks in Framing Business Scenarios, Choosing Right Visuals, Creating Visuals, and Communicating Insights.',
+                        pdf: './images/TATA Data Visualization Certificate.pdf'
+                     }"
+                     class="group p-5 rounded-2xl border cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50 hover:border-blue-500/60' : 'border-slate-200 bg-white hover:border-blue-500 shadow-sm'">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-purple-500/10 text-purple-400">TATA / Forage</span>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-50 group-hover:opacity-100 text-purple-500"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1 group-hover:text-blue-500 transition-colors">Data Visualisation Simulation</h3>
+                    <p class="text-xs text-slate-400 mb-3">TATA / Forage • Sept 2025</p>
+                    <p class="text-xs line-clamp-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Business scenario framing, executive reporting, and dashboard visual design.
+                    </p>
+                </div>
+
+                <!-- 4. Additive Manufacturing & Industry 4.0 -->
+                <div @click="selectedCert = {
+                        title: 'Additive Manufacturing Designer and Industry 4.0',
+                        issuer: 'AMSI / EOS India / NMIT',
+                        date: 'March 25 - 29, 2024',
+                        code: '40-Hour Skill Training',
+                        desc: 'Successfully completed 40 hours of skill-based training on Additive Manufacturing concepts and Industry 4.0 frameworks.',
+                        pdf: './images/3D CERTIFICATE.pdf'
+                     }"
+                     class="group p-5 rounded-2xl border cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50 hover:border-blue-500/60' : 'border-slate-200 bg-white hover:border-blue-500 shadow-sm'">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-amber-500/10 text-amber-400">NMIT & AMSI</span>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-50 group-hover:opacity-100 text-amber-500"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1 group-hover:text-blue-500 transition-colors">Additive Manufacturing & Industry 4.0</h3>
+                    <p class="text-xs text-slate-400 mb-3">NMIT & AMSI • March 2024</p>
+                    <p class="text-xs line-clamp-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Hands-on 40-hour skill training on Industry 4.0 smart systems and design principles.
+                    </p>
+                </div>
+
+                <!-- 5. Simplilearn SQL Certification Course -->
+                <div @click="selectedCert = {
+                        title: 'SQL Certification Course',
+                        issuer: 'Simplilearn (Krishna Kumar, CEO)',
+                        date: 'February 26, 2026',
+                        code: '9895363',
+                        desc: 'Successfully completed training program and passed practical project work in SQL.',
+                        pdf: './images/MySQL Certificate.pdf'
+                     }"
+                     class="group p-5 rounded-2xl border cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50 hover:border-blue-500/60' : 'border-slate-200 bg-white hover:border-blue-500 shadow-sm'">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-sky-500/10 text-sky-400">Simplilearn</span>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-50 group-hover:opacity-100 text-sky-500"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1 group-hover:text-blue-500 transition-colors">SQL Certification Course</h3>
+                    <p class="text-xs text-slate-400 mb-3">Simplilearn • Feb 26, 2026</p>
+                    <p class="text-xs line-clamp-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Relational database queries, data manipulation, and database administration.
+                    </p>
+                </div>
+
+                <!-- 6. Infosys SpringBoard Data Science Foundation Certification -->
+                <div @click="selectedCert = {
+                        title: 'Data Science Foundation Certification',
+                        issuer: 'Infosys SpringBoard (Thirumala Arohi, EVP)',
+                        date: 'December 31, 2024',
+                        code: 'Wingspan Verification',
+                        desc: 'Successfully completed the Data Science Foundation Certification through Infosys Springboard.',
+                        pdf: './images/Springboard(infosis)certificates.pdf'
+                     }"
+                     class="group p-5 rounded-2xl border cursor-pointer transition-all duration-300 hover:scale-[1.02]"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50 hover:border-blue-500/60' : 'border-slate-200 bg-white hover:border-blue-500 shadow-sm'">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="px-2.5 py-1 rounded-md text-xs font-bold uppercase tracking-wider bg-indigo-500/10 text-indigo-400">Infosys</span>
+                        <i data-lucide="file-text" class="w-4 h-4 opacity-50 group-hover:opacity-100 text-indigo-500"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1 group-hover:text-blue-500 transition-colors">Data Science Foundation</h3>
+                    <p class="text-xs text-slate-400 mb-3">Infosys SpringBoard • Dec 31, 2024</p>
+                    <p class="text-xs line-clamp-2" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        Certified data science foundation training covering core analytical workflows.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- EDUCATION SECTION -->
+    <section id="education" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold tracking-tight">Education</h2>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <!-- Timeline Stack -->
+            <div class="max-w-3xl mx-auto space-y-8">
+                
+                <!-- NMIT B.E. -->
+                <div class="p-6 rounded-2xl border relative transition-all"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold">Nitte Meenakshi Institute of Technology</h3>
+                            <p class="text-sm font-semibold text-blue-500">B.E. in Artificial Intelligence & Data Science[cite: 1]</p>
+                        </div>
+                        <div class="text-left sm:text-right">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">CGPA: 8.25 / 10[cite: 1]</span>
+                            <p class="text-xs text-slate-400 mt-1">2023 - 2027 • Bengaluru[cite: 1]</p>
+                        </div>
+                    </div>
+                    <p class="text-sm" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                        <strong>Core Subjects:</strong> Database Management Systems, Statistics, Data Wrangling, Data Structures, Machine Learning, Deep Learning[cite: 1].
+                    </p>
+                </div>
+
+                <!-- Pre-University -->
+                <div class="p-6 rounded-2xl border relative transition-all"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold">Diamond PU College</h3>
+                            <p class="text-sm font-semibold text-blue-500">Pre-University Course[cite: 1]</p>
+                        </div>
+                        <div class="text-left sm:text-right">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Percentage: 91%[cite: 1]</span>
+                            <p class="text-xs text-slate-400 mt-1">Bengaluru[cite: 1]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- High School -->
+                <div class="p-6 rounded-2xl border relative transition-all"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                        <div>
+                            <h3 class="text-xl font-bold">Vidya Vikas Primary & High School</h3>
+                            <p class="text-sm font-semibold text-blue-500">Class X[cite: 1]</p>
+                        </div>
+                        <div class="text-left sm:text-right">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">Percentage: 87%[cite: 1]</span>
+                            <p class="text-xs text-slate-400 mt-1">Bengaluru[cite: 1]</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SELECTED PROJECTS SECTION -->
+    <section id="projects" class="py-16 border-t" :class="darkMode ? 'border-slate-800/80 bg-slate-900/40' : 'border-slate-200 bg-slate-50'">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold tracking-tight">Selected Projects</h2>
+                <p class="text-sm mt-2" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">Showcasing technical proficiency in SQL, Power BI, and Machine Learning[cite: 1].</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Project 1: Customer Purchase Behavior Analytics -->
+                <div class="rounded-2xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">Python + MySQL + Power BI[cite: 1]</span>
+                            <i data-lucide="shopping-bag" class="w-5 h-5 text-blue-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Customer Purchase Behavior Analytics System[cite: 1]</h3>
+                        <p class="text-sm mb-4 leading-relaxed" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                            Built an end-to-end data pipeline to analyze customer shopping trends, spending patterns, and product review ratings[cite: 1].
+                        </p>
+                        <ul class="text-xs space-y-2 mb-6 list-disc list-inside" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                            <li>Cleaned raw shopping dataset in Python and ingested into MySQL database[cite: 1].</li>
+                            <li>Wrote optimized SQL queries with joins and aggregations to uncover purchasing trends[cite: 1].</li>
+                            <li>Engineered DAX measures (Total Revenue, Avg Review Rating, Avg Purchase Amount) for KPI cards[cite: 1].</li>
+                        </ul>
+                    </div>
+                    <div class="px-6 py-4 border-t flex items-center justify-between" :class="darkMode ? 'border-slate-700/60 bg-slate-800/80' : 'border-slate-100 bg-slate-50'">
+                        <span class="text-xs font-medium text-slate-400">DAX + SQL + ETL[cite: 1]</span>
+                        <a href="https://github.com" target="_blank" class="inline-flex items-center space-x-1 text-xs font-bold text-blue-500 hover:underline">
+                            <span>GitHub Code[cite: 1]</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: E-Commerce Sales & Profit Dashboard -->
+                <div class="rounded-2xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-500/10 text-purple-400 border border-purple-500/20">Power BI Dashboard[cite: 1]</span>
+                            <i data-lucide="pie-chart" class="w-5 h-5 text-purple-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">E-Commerce Sales & Profit Dashboard[cite: 1]</h3>
+                        <p class="text-sm mb-4 leading-relaxed" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                            Designed an interactive Power BI dashboard tracking total sales amount, overall profit, order quantities, and average order value (AOV)[cite: 1].
+                        </p>
+                        <ul class="text-xs space-y-2 mb-6 list-disc list-inside" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                            <li>Visualized monthly profit trends, top customers, and sales distribution by state[cite: 1].</li>
+                            <li>Integrated regional and quarterly slicers for dynamic stakeholder analysis[cite: 1].</li>
+                        </ul>
+                    </div>
+                    <div class="px-6 py-4 border-t flex items-center justify-between" :class="darkMode ? 'border-slate-700/60 bg-slate-800/80' : 'border-slate-100 bg-slate-50'">
+                        <span class="text-xs font-medium text-slate-400">Power BI Data Modeling[cite: 1]</span>
+                        <a href="https://github.com" target="_blank" class="inline-flex items-center space-x-1 text-xs font-bold text-blue-500 hover:underline">
+                            <span>GitHub Code[cite: 1]</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: Hybrid AI System for Crop Price Prediction -->
+                <div class="rounded-2xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Python + XGBoost + Power BI[cite: 1]</span>
+                            <i data-lucide="sprout" class="w-5 h-5 text-emerald-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Hybrid AI System for Crop Price Prediction[cite: 1]</h3>
+                        <p class="text-sm mb-4 leading-relaxed" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                            End-to-end ML pipeline fusing market data, weather analytics, and satellite yield estimates to predict agricultural commodity prices[cite: 1].
+                        </p>
+                        <ul class="text-xs space-y-2 mb-6 list-disc list-inside" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                            <li>Engineered multi-source datasets and feature transforms for ML models[cite: 1].</li>
+                            <li>Trained and benchmarked regression models (including XGBoost)[cite: 1].</li>
+                            <li>Integrated model outputs with an interactive Power BI dashboard[cite: 1].</li>
+                        </ul>
+                    </div>
+                    <div class="px-6 py-4 border-t flex items-center justify-between" :class="darkMode ? 'border-slate-700/60 bg-slate-800/80' : 'border-slate-100 bg-slate-50'">
+                        <span class="text-xs font-medium text-slate-400">Scikit-Learn + XGBoost[cite: 1]</span>
+                        <a href="https://github.com" target="_blank" class="inline-flex items-center space-x-1 text-xs font-bold text-blue-500 hover:underline">
+                            <span>GitHub Code[cite: 1]</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 4: Supply Chain & Inventory Analytics System -->
+                <div class="rounded-2xl border overflow-hidden flex flex-col justify-between transition-all duration-300 hover:shadow-xl"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/50' : 'border-slate-200 bg-white shadow-sm'">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">Relational SQL + MySQL[cite: 1]</span>
+                            <i data-lucide="truck" class="w-5 h-5 text-amber-500"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Supply Chain & Inventory Analytics System[cite: 1]</h3>
+                        <p class="text-sm mb-4 leading-relaxed" :class="darkMode ? 'text-slate-300' : 'text-slate-600'">
+                            Architected a relational SQL database to manage inventory, suppliers, and warehouse metrics for a simulated supply chain network[cite: 1].
+                        </p>
+                        <ul class="text-xs space-y-2 mb-6 list-disc list-inside" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">
+                            <li>Constructed optimized queries with joins, groupings, and filters[cite: 1].</li>
+                            <li>Generated operational reports detailing supplier reliability and warehouse capacity[cite: 1].</li>
+                        </ul>
+                    </div>
+                    <div class="px-6 py-4 border-t flex items-center justify-between" :class="darkMode ? 'border-slate-700/60 bg-slate-800/80' : 'border-slate-100 bg-slate-50'">
+                        <span class="text-xs font-medium text-slate-400">Database Schema Design[cite: 1]</span>
+                        <a href="https://github.com" target="_blank" class="inline-flex items-center space-x-1 text-xs font-bold text-blue-500 hover:underline">
+                            <span>GitHub Code[cite: 1]</span>
+                            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-3xl font-extrabold tracking-tight">Get In Touch</h2>
+                <p class="text-sm mt-2" :class="darkMode ? 'text-slate-400' : 'text-slate-500'">Open for Data Analytics, AI research, and software opportunities[cite: 1, 2].</p>
+                <div class="w-16 h-1 bg-blue-600 mx-auto mt-3 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <!-- Info Cards -->
+                <div class="lg:col-span-5 space-y-4">
+                    <a href="mailto:deepakreddyshivannor@gmail.com" class="p-5 rounded-2xl border flex items-center space-x-4 transition-all hover:scale-[1.02]"
+                       :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                        <div class="w-12 h-12 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="mail" class="w-6 h-6"></i>
+                        </div>
+                        <div class="overflow-hidden">
+                            <p class="text-xs font-semibold text-slate-400 uppercase">Email</p>
+                            <p class="font-bold text-sm truncate">deepakreddyshivannor@gmail.com</p>
+                        </div>
+                    </a>
+
+                    <div class="p-5 rounded-2xl border flex items-center space-x-4"
+                         :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="phone" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase">Phone</p>
+                            <p class="font-bold text-sm">+91 7676377859</p>
+                        </div>
+                    </div>
+
+                    <div class="p-5 rounded-2xl border flex items-center space-x-4"
+                         :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center shrink-0">
+                            <i data-lucide="map-pin" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-slate-400 uppercase">Location</p>
+                            <p class="font-bold text-sm">Bengaluru, Karnataka, India[cite: 1]</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="lg:col-span-7 p-6 rounded-2xl border"
+                     :class="darkMode ? 'border-slate-800 bg-slate-800/40' : 'border-slate-200 bg-white shadow-sm'">
+                    <form onsubmit="event.preventDefault(); alert('Thank you for reaching out! Deepak will respond shortly.');" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold mb-1 uppercase tracking-wider text-slate-400">Your Name</label>
+                            <input type="text" required placeholder="John Doe" 
+                                   class="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all focus:border-blue-500"
+                                   :class="darkMode ? 'border-slate-700 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50 text-slate-800'">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold mb-1 uppercase tracking-wider text-slate-400">Your Email</label>
+                            <input type="email" required placeholder="john@example.com" 
+                                   class="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all focus:border-blue-500"
+                                   :class="darkMode ? 'border-slate-700 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50 text-slate-800'">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold mb-1 uppercase tracking-wider text-slate-400">Message</label>
+                            <textarea rows="4" required placeholder="Hi Deepak, I'd like to talk about an opportunity..." 
+                                      class="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-all focus:border-blue-500"
+                                      :class="darkMode ? 'border-slate-700 bg-slate-900 text-white' : 'border-slate-200 bg-slate-50 text-slate-800'"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm shadow-lg shadow-blue-500/25 transition-all">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-8 border-t text-center text-xs text-slate-400" :class="darkMode ? 'border-slate-800 bg-slate-900' : 'border-slate-200 bg-white'">
+        <div class="max-w-7xl mx-auto px-4">
+            <p>© 2026 Deepak Reddy. All rights reserved[cite: 1]. Built with Tailwind CSS & Alpine.js.</p>
+        </div>
+    </footer>
+
+    <!-- CERTIFICATE MODAL FOR PDF VIEWER -->
+    <div x-show="selectedCert" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+         style="display: none;">
+        
+        <div @click.away="selectedCert = null" 
+             class="relative w-full max-w-3xl rounded-3xl p-6 sm:p-8 border shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto"
+             :class="darkMode ? 'bg-slate-900 border-slate-700 text-white' : 'bg-white border-slate-200 text-slate-900'">
+            
+            <!-- Close Button -->
+            <button @click="selectedCert = null" class="absolute top-4 right-4 p-2 rounded-full border hover:rotate-90 transition-transform"
+                    :class="darkMode ? 'border-slate-700 bg-slate-800 text-slate-300' : 'border-slate-200 bg-slate-100 text-slate-600'">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <template x-if="selectedCert">
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-xl bg-blue-600/10 text-blue-500 flex items-center justify-center">
+                            <i data-lucide="award" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-extrabold" x-text="selectedCert.title"></h3>
+                            <p class="text-xs text-blue-500 font-semibold" x-text="selectedCert.issuer"></p>
+                        </div>
+                    </div>
+
+                    <!-- PDF Viewer Frame -->
+                    <div class="rounded-2xl border overflow-hidden bg-slate-950 p-2">
+                        <iframe :src="selectedCert.pdf" class="w-full h-96 rounded-xl border-0"></iframe>
+                    </div>
+
+                    <div class="space-y-2 text-sm">
+                        <p class="text-xs text-slate-400">
+                            <strong>Date Issued:</strong> <span x-text="selectedCert.date"></span>
+                        </p>
+                        <p class="text-xs text-slate-400" x-show="selectedCert.code">
+                            <strong>Credential ID:</strong> <span x-text="selectedCert.code"></span>
+                        </p>
+                        <p class="leading-relaxed text-xs" :class="darkMode ? 'text-slate-300' : 'text-slate-600'" x-text="selectedCert.desc"></p>
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-between">
+                        <a :href="selectedCert.pdf" target="_blank" class="px-4 py-2.5 rounded-xl border text-xs font-bold flex items-center space-x-2"
+                           :class="darkMode ? 'border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200' : 'border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-800'">
+                            <i data-lucide="external-link" class="w-4 h-4"></i>
+                            <span>Open PDF in New Tab</span>
+                        </a>
+                        <button @click="selectedCert = null" class="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Initialize Icons -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
